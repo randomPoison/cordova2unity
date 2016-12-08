@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova2unity"
+        version="0.1.0">
+
+  <name>cordova2unity</name>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/cordova2unity.js" target="js/cordova2unity.js"/>
+
+  <js-module src="www/cordova2unity.js" name="cordova2unity">
+    <clobbers target="cordova2unity" />
+  </js-module>
+
+  <platform name="android">
+
+    <hook type="before_build" src="scripts/apply-build-extras.js" />
+    <framework src="src/android/cordova2unity.gradle" custom="true" type="gradleReference" />
+
+    <framework src="unity/android/Play4Fun" custom="true" />
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="cordova2unity">
+        <param name="android-package" value="com.cordova2unity.Cordova2Unity"/>
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <activity android:label="@string/app_name" android:screenOrientation="sensorPortrait" android:launchMode="singleTask" android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale" android:name="com.cordova2unity.GameActivity">
+        <meta-data android:name="unity3d.player.UnityActivity" android:value="true" />
+        <meta-data android:name="unity3d.player.ForwardNativeEventsToDalvik" android:value="true" />
+      </activity>
+    </config-file>
+
+    <source-file src="src/android/Cordova2Unity.java" target-dir="src/com/cordova2unity" />
+    <source-file src="src/android/GameActivity.java" target-dir="src/com/cordova2unity" />
+
+  </platform>
+
+  <platform name="ios">
+
+    <config-file target="config.xml" parent="/widget">
+      <feature name="cordova2unity">
+        <param name="ios-package" value="cordova2unity" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/cordova2unity.h" target-dir="cordova2unity"/>
+    <source-file src="src/ios/cordova2unity.m" target-dir="cordova2unity"/>
+  </platform>
+
+</plugin>
